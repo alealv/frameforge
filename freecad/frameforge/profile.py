@@ -291,6 +291,8 @@ class Profile:
         init_mirror_h=False,
         init_mirror_v=False,
         init_rotation=0.0,
+        init_offset_a=0.0,
+        init_offset_b=0.0,
     ):
         self.run_compatibility_migrations(obj)
 
@@ -336,9 +338,8 @@ class Profile:
         obj.MirrorH = bool(init_mirror_h)
         obj.MirrorV = bool(init_mirror_v)
         obj.RotationAngle = float(init_rotation)
-
-        # obj.OffsetA = .0  # Property for structure
-        # obj.OffsetB = .0  # Property for structure
+        obj.OffsetA = float(init_offset_a)
+        obj.OffsetB = float(init_offset_b)
 
     def on_changed(self, obj, p):
 
@@ -389,6 +390,7 @@ class Profile:
         R = obj.RadiusLarge
         r = obj.RadiusSmall
         d = vec(0, 0, 1)
+        p = None
 
         w = h = 0
 
@@ -1046,6 +1048,12 @@ class Profile:
                 p = tslot20x20_one_slot()
             else:
                 raise ValueError("T-Slot 1-Slot H/W")
+
+        if p is None:
+            raise ValueError(
+                f"Unsupported or unresolved profile family: material={obj.Material!r}, "
+                f"family={obj.Family!r}, size={obj.SizeName!r}"
+            )
 
         mirror_h = getattr(obj, "MirrorH", False)
         mirror_v = getattr(obj, "MirrorV", False)
