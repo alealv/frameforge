@@ -1709,7 +1709,7 @@ class ViewProviderProfile:
         return True
 
     def edit(self):
-        FreeCADGui.ActiveDocument.setEdit(self.Object, 0)
+        Gui.ActiveDocument.setEdit(self.Object, 0)
 
 
 class ViewProviderCustomProfile(ViewProviderProfile):
